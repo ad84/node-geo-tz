@@ -54,7 +54,7 @@ When using this product, the timezone identifier returned will be appropriate fo
 
 ### Same since now
 
-A dataset containing a unioned set of timezones that share the same timekeeping method into the future is the final data product available. This version has the smallest file size as it does not include as many timezones and boundaries. In a number of places, the timezone identifier returned will be that which has the highest population among all timezone identifiers with similar timekeeping methods since the current time.
+The final data product is a dataset containing a unioned set of timezones that share the same timekeeping method into the future since the approximate release date of the library version being used. This version has the smallest file size as it does not include as many timezones and boundaries. In a number of places, the timezone identifier returned will be that which has the highest population among all timezone identifiers with similar timekeeping methods since the current time.
 
 ```js
 const { find } = require('geo-tz/now')
@@ -110,7 +110,7 @@ Because this library reads the [`data/`](/data/) directory from disk at runtime,
 
 The underlying data is obtained from the [timezone-boundary-builder](https://github.com/evansiroky/timezone-boundary-builder) project. The data from that project is mostly sourced from OpenStreetMap which is editable by anyone. In most cases, the timezone boundaries follow officially observed boundaries, but often times some communities near timezone boundaries may follow whichever timekeeping method works best for them.
 
-The boundaries in the ocean come from the [timezone-boundary-builder](https://github.com/evansiroky/timezone-boundary-builder) project which only includes territorial waters and not exclusive economic zones. Additionally, special cases where the GPS coordinate falls with an area of [Terra nullius](https://en.wikipedia.org/wiki/Terra_nullius) will also have an ocean zone(s) returned.
+The boundaries come from the [timezone-boundary-builder](https://github.com/evansiroky/timezone-boundary-builder) project which only includes territorial waters and not exclusive economic zones. This library will return the `Etc/GMT*` identifiers for GPS coordinates in an ocean or uninhabited area not covered by another timezone boundary. Additionally, special cases where the GPS coordinate falls with an area of [Terra nullius](https://en.wikipedia.org/wiki/Terra_nullius) will also have an ocean zone(s) returned.
 
 The resulting timezone identifiers will represent the timekeeping method as is cataloged to the best of the knowledge of the maintainers of the [timezone database](https://www.iana.org/time-zones). This could be wrong in the past (especially prior to 1970) and could change in the future should an area change the way they keep track of time.
 
