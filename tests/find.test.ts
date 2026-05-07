@@ -18,11 +18,18 @@ process.chdir('/tmp')
  * @param  {number} lon
  * @param  {string | array} tzs can be a string or array of timezone names
  */
-function assertTzResultContainsTzs(lat, lon, tzs) {
+function assertTzResultContainsTzs(lat, lon, tzs, product?: string) {
   if (typeof tzs === 'string') {
     tzs = [tzs]
   }
-  const result = find(lat, lon)
+  let result
+  if (product === 'now') {
+    result = findNow(lat, lon)
+  } else if(product === '1970') {
+    result = find1970(lat, lon)
+  } else {
+    result = find(lat, lon)
+  }
   assert.isArray(result)
   assert.sameMembers(result, tzs)
 }
@@ -74,7 +81,7 @@ describe('find tests', function () {
       it(
         'should find ' + spotDescription + ' (' + spot.description + ')',
         function () {
-          assertTzResultContainsTzs(spot.lat, spot.lon, spot.zid || spot.zids)
+          assertTzResultContainsTzs(spot.lat, spot.lon, spot.zid || spot.zids, spot.product)
         },
       )
     })
@@ -86,15 +93,11 @@ describe('find tests', function () {
     })
 
     it('should find Asia/Riyadh at Aden International Airport with 1970 timezones', () => {
-      const result = find1970(12.826174, 45.036933)
-      assert.isArray(result)
-      assert.sameMembers(result, ['Asia/Riyadh'])
+      assertTzResultContainsTzs(12.826174, 45.036933, 'Asia/Riyadh', '1970')
     })
 
     it('should find Europe/Moscow at Aden International Airport with now timezones', () => {
-      const result = findNow(12.826174, 45.036933)
-      assert.isArray(result)
-      assert.sameMembers(result, ['Europe/Moscow'])
+      assertTzResultContainsTzs(12.826174, 45.036933, 'Europe/Moscow', 'now')
     })
   })
 
