@@ -25,7 +25,7 @@ function assertTzResultContainsTzs(lat, lon, tzs, product?: string) {
   let result
   if (product === 'now') {
     result = findNow(lat, lon)
-  } else if(product === '1970') {
+  } else if (product === '1970') {
     result = find1970(lat, lon)
   } else {
     result = find(lat, lon)
@@ -81,7 +81,12 @@ describe('find tests', function () {
       it(
         'should find ' + spotDescription + ' (' + spot.description + ')',
         function () {
-          assertTzResultContainsTzs(spot.lat, spot.lon, spot.zid || spot.zids, spot.product)
+          assertTzResultContainsTzs(
+            spot.lat,
+            spot.lon,
+            spot.zid || spot.zids,
+            spot.product,
+          )
         },
       )
     })
